@@ -20,11 +20,11 @@
           <ul>
               {% for node in scene.nodes %}
               <li>{{node.name}} ({{node.label}})
-                  <br>FIRST TIME: {{node.displayText}}
-                  <br>REPEAT: {{node.displayTextVisited}}
+                  <br>FIRST TIME: {{node.display_text}}
+                  <br>REPEAT: {{node.display_txt_visited}}
                   <ul>
                       {% for choice in node.choices %}
-                      <li>{{choice.displayText}}</li>
+                      <li>{{choice.display_text}}</li>
                       {% endfor %}
                   </ul>
               </li>
