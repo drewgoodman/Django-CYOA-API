@@ -1,9 +1,12 @@
 from django.db import models
 from django.urls import reverse
 
+from django.contrib.contenttypes.models import ContentType
+
 from .utils.gameData import *
 
 # Create your models here.
+
 
 class Campaign(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
@@ -21,11 +24,24 @@ class Campaign(models.Model):
         return reverse("content:view-campaign",kwargs={"slug":self._id})
 
 
+class SceneManager(models.Manager):
+
+    def filter_by_campaign(self, instance):
+        # queryset = Scene.objects.filter(campaignLinked=instance)
+        queryset = super(SceneManager, self).filter(campaignLinked=instance)
+        return queryset
+
+
 class Scene(models.Model): #hosts a cluster of traversable nodes / largely for organization purposes. can also give overhead GPS location data to player
     _id = models.AutoField(primary_key=True, editable=False)
     name = models.CharField(max_length=200, null=True, blank=True) # location name to be displayed in-game
     label = models.CharField(max_length=255, null=True, blank=True) #campaign file label for developer organization purposes
     campaignLinked = models.ForeignKey(Campaign, on_delete=models.SET_NULL, null=True)
+
+    objects = SceneManager()
+
+    def nodes(self):
+        return SceneNode.objects.filter(sceneLinked=self)
 
     def __str__(self):
         return self.label
@@ -41,6 +57,9 @@ class SceneNode(models.Model): # a traversable node inside the scene
     displayText = models.TextField() # text displayed on entering node --- can be formatted for special animations
     displayTextVisited = models.TextField(null=True, blank=True) # optional; text to display if this is not the first time the player has visited this node
 
+    def choices(self):
+        return NodeChoice.objects.filter(sceneNodeLinked=self)
+
     def __str__(self):
         return self.label
 
@@ -48,7 +67,7 @@ class SceneNode(models.Model): # a traversable node inside the scene
 class NodeChoice(models.Model): # an interactive option made available within a scene node
     _id = models.AutoField(primary_key=True, editable=False)
     label = models.CharField(max_length=255, null=True, blank=True) # file label for developer organization purposes
-    sceneNodeLinked = models.ForeignKey(Scene, on_delete=models.SET_NULL, null=True)
+    sceneNodeLinked = models.ForeignKey(SceneNode, on_delete=models.SET_NULL, null=True)
 
     displayText = models.CharField(max_length=200, null=True, blank=True) # text to be displayed on choice button
     canRepeat = models.BooleanField(default=True) # if true, will appear every single time player visits the associated scene node
@@ -87,6 +106,7 @@ class Conditional(models.Model): # the "base" of a conditional check for a choic
 
     def __str__(self):
         return self.type
+
 
 class ConditionalOperator(models.Model): #one per conditional max
     condition = models.OneToOneField(Conditional, on_delete=models.CASCADE, primary_key=True)

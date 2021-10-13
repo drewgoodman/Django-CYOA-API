@@ -1,7 +1,39 @@
 {% extends '__base.html' %}
 {% load static %}
 {% block content %}
-<div class="row">
-{{ name }}
-</div>
+<h1>{{name}}</h1>
+<p>{{description_short}}</p>
+<hr>
+<h3>Campaign Scenes</h3>
+
+<div class="accordion" id="accordionExample">
+    {% for scene in scenes %}
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          {{ scene.name }}
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <strong>{{ scene.label }}.</strong>
+          <ul>
+              {% for node in scene.nodes %}
+              <li>{{node.name}} ({{node.label}})
+                  <br>FIRST TIME: {{node.displayText}}
+                  <br>REPEAT: {{node.displayTextVisited}}
+                  <ul>
+                      {% for choice in node.choices %}
+                      <li>{{choice.displayText}}</li>
+                      {% endfor %}
+                  </ul>
+              </li>
+              {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
 {% endblock content %}
