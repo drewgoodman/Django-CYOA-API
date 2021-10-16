@@ -5,7 +5,7 @@
 <p>{{description_short}}</p>
 <hr>
 <h3>Campaign Scenes</h3>
-
+<a href="{% url 'content:create-scene' campaign_id %}" class="btn btn-primary">Create New Scene</a>
 <div class="accordion" id="accordionExample">
     {% for scene in scenes %}
     <div class="accordion-item">
@@ -16,7 +16,7 @@
       </h2>
       <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
         <div class="accordion-body">
-          <strong>{{ scene.label }}.</strong>
+          <a href="{{scene.get_content_url}}"><strong>{{ scene.label }}.</strong></a>
           <ul>
               {% for node in scene.nodes %}
               <li>{{node.name}} ({{node.label}})
