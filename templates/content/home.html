@@ -1,9 +1,22 @@
 {% extends '__base.html' %}
 {% load static %}
 {% block content %}
-<div class="row">
-{% for obj in object_list %}
-<div><a href="{{obj.get_content_url}}">{{obj.name}}</a> - {{obj.description_short}}</div>
-{% endfor %}
-</div>
+<table class="table">
+    <thead>
+        <th scope="col">Campaign</th>
+        <th scope="col">Reference</th>
+        <th scope="col">Description</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        {% for obj in object_list %}
+        <tr>
+            <th><a href="{{obj.get_content_url}}">{{obj.name}}</a></th>
+            <td>{{obj.label}}</td>
+            <td>{{obj.description_short}}</td>
+            <td><img class="img-fluid" src="{{obj.get_image_url}}"></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock content %}

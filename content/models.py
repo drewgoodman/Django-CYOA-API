@@ -1,12 +1,31 @@
 from django.db import models
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
-
 from django.contrib.contenttypes.models import ContentType
+
+
+from cloudinary.models import CloudinaryField
 
 from .utils.gamedata import *
 
 # Create your models here.
+
+
+class BackgroundImage(models.Model): #reference for background banners on scene nodes
+
+    name = models.CharField(max_length=100)
+    image = CloudinaryField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+class IconImage(models.Model): #reference for action-icon images
+
+    name = models.CharField(max_length=100)
+    image = CloudinaryField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Campaign(models.Model):
@@ -16,13 +35,19 @@ class Campaign(models.Model):
     description_short = models.TextField(null=True, blank=True) # short display description in main menu
     description_long = models.TextField(null=True, blank=True) # long display description before confirmation
     icon = models.ImageField(null=True, blank=True, default='/placeholder.png') # for main menu display
-    feature_image = models.ImageField(null=True, blank=True, default='/placeholder.png') # for long description display / placeholder fallback image if scenes lack background images
+    feature_image = models.ForeignKey(BackgroundImage, on_delete=models.SET_NULL, null=True, blank=True) # for long description display / placeholder fallback image if scenes lack background images
 
     def __str__(self):
         return self.label
 
     def get_content_url(self):
         return reverse("content:view-campaign",kwargs={"slug":self._id})
+
+    def get_image_url(self):
+        if self.feature_image:
+            return self.feature_image.image.url
+        else:
+            return "/placeholder.png"
 
 
 class SceneManager(models.Manager):
@@ -57,7 +82,7 @@ class SceneNode(models.Model): # a traversable node inside the scene
     label = models.CharField(max_length=255, null=True, blank=True) #campaign file label for developer organization purposes
     scene_linked = models.ForeignKey(Scene, on_delete=models.SET_NULL, null=True)
 
-    background_image = models.ImageField(null=True, blank=True, default='/placeholder.png') # display this image banner up top to set the scene described in text
+    background_image = models.ForeignKey(BackgroundImage, on_delete=models.SET_NULL, null=True, blank=True) # display this image banner up top to set the scene described in text
     display_text = models.TextField() # text displayed on entering node --- can be formatted for special animations
     display_text_visited = models.TextField(null=True, blank=True) # optional; text to display if this is not the first time the player has visited this node
 
@@ -72,6 +97,7 @@ class NodeChoice(models.Model): # an interactive option made available within a 
     _id = models.AutoField(primary_key=True, editable=False)
     label = models.CharField(max_length=255, null=True, blank=True) # file label for developer organization purposes
     scene_node_linked = models.ForeignKey(SceneNode, on_delete=models.SET_NULL, null=True)
+    icon_linked = models.ForeignKey(IconImage, on_delete=models.SET_NULL, null=True, blank=True) # icon displayed
 
     display_text = models.CharField(max_length=200, null=True, blank=True) # text to be displayed on choice button
     can_repeat = models.BooleanField(default=True) # if true, will appear every single time player visits the associated scene node
@@ -85,6 +111,12 @@ class NodeChoice(models.Model): # an interactive option made available within a 
 
     def __str__(self):
         return self.label + ": " + self.displayText
+    
+    def icon(self):
+        if self.icon_linked:
+            return self.icon_linked.image
+        else:
+            return '/placeholder.jpg'
 
 
 class ChoiceEvent(models.Model): # an event that fires after a choice is made and the resulting text displayed. Can be configured to fire on event failure as well

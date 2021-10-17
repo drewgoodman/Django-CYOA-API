@@ -3,6 +3,9 @@ from .models import *
 
 # Register your models here.
 
+admin.site.register(BackgroundImage)
+admin.site.register(IconImage)
+
 admin.site.register(Campaign)
 
 admin.site.register(Scene)
