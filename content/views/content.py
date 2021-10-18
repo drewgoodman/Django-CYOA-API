@@ -41,20 +41,16 @@ def create_campaign(request):
 def create_scene(request, slug=None):
     if not request.user.is_authenticated:
         raise Http404
-    instance = get_object_or_404(Campaign, _id=slug)
+    campaign_ref = get_object_or_404(Campaign, _id=slug)
     initial_data = {
-        "campaign_linked": instance
+        "campaign_linked": campaign_ref
     }
     form = SceneForm(request.POST or None, request.FILES or None, initial=initial_data)
     if form.is_valid() and request.user.is_authenticated:
         instance = form.save(commit=False)
-        # try:
-        #     feature_image = request.FILES['file']
-        # except:
-        #     feature_image = None
-        # if feature_image:
-        #     instance.feature_image = feature_image
+        instance.campaign_linked = campaign_ref
         instance.save()
+        return HttpResponseRedirect(instance.get_content_url())
     context = {
         "form": form
     }

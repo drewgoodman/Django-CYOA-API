@@ -1,7 +1,7 @@
 {% extends '__base.html' %}
 {% load static %}
 {% block content %}
-<table class="table">
+<table class="table align-middle">
     <thead>
         <th scope="col">Campaign</th>
         <th scope="col">Reference</th>
@@ -14,7 +14,7 @@
             <th><a href="{{obj.get_content_url}}">{{obj.name}}</a></th>
             <td>{{obj.label}}</td>
             <td>{{obj.description_short}}</td>
-            <td><img class="img-fluid" src="{{obj.get_image_url}}"></td>
+            <td><img class="img-thumbnail" style="max-height:200px; max-width:200px;" src="{{obj.get_image_url}}"></td>
         </tr>
         {% endfor %}
     </tbody>

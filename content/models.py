@@ -19,6 +19,7 @@ class BackgroundImage(models.Model): #reference for background banners on scene 
     def __str__(self):
         return self.name
 
+
 class IconImage(models.Model): #reference for action-icon images
 
     name = models.CharField(max_length=100)
@@ -81,7 +82,6 @@ class SceneNode(models.Model): # a traversable node inside the scene
     name = models.CharField(max_length=200, null=True, blank=True) # location name to be displayed in-game
     label = models.CharField(max_length=255, null=True, blank=True) #campaign file label for developer organization purposes
     scene_linked = models.ForeignKey(Scene, on_delete=models.SET_NULL, null=True)
-
     background_image = models.ForeignKey(BackgroundImage, on_delete=models.SET_NULL, null=True, blank=True) # display this image banner up top to set the scene described in text
     display_text = models.TextField() # text displayed on entering node --- can be formatted for special animations
     display_text_visited = models.TextField(null=True, blank=True) # optional; text to display if this is not the first time the player has visited this node
@@ -98,14 +98,11 @@ class NodeChoice(models.Model): # an interactive option made available within a 
     label = models.CharField(max_length=255, null=True, blank=True) # file label for developer organization purposes
     scene_node_linked = models.ForeignKey(SceneNode, on_delete=models.SET_NULL, null=True)
     icon_linked = models.ForeignKey(IconImage, on_delete=models.SET_NULL, null=True, blank=True) # icon displayed
-
     display_text = models.CharField(max_length=200, null=True, blank=True) # text to be displayed on choice button
     can_repeat = models.BooleanField(default=True) # if true, will appear every single time player visits the associated scene node
-
     has_condition = models.BooleanField(default=False) # if true, will only show node if the player meeds all conditions linked to this choice node
     can_fail = models.BooleanField(default=False) #if true, and the player fails to meet conditions; the player can still use this option, but it's a trap and will result in failure
     hide_on_condition_fail = models.BooleanField(default=True) # if true, and canFail is false, the node will NOT appear in the list at all if the player fails to meet the conditions. If false (and canFail is false as well), it will appear, but it will be grayed out instead and non-functional
-
     result_text = models.TextField(null=True, blank=True) # the text that displays when making the choice. Events are fired *after* this text displays
     result_text_on_fail = models.TextField(null=True, blank=True) # same as resultText, but plays if conditions are failed AND canFail is True --- is the result of a player making a choice and failing the check
 
@@ -122,10 +119,8 @@ class NodeChoice(models.Model): # an interactive option made available within a 
 class ChoiceEvent(models.Model): # an event that fires after a choice is made and the resulting text displayed. Can be configured to fire on event failure as well
     _id = models.AutoField(primary_key=True, editable=False)
     type = models.CharField(max_length=20, choices=CONTENT_CONDITION_TYPES, blank=True)
-
     operator = models.CharField(null=True, blank=True, max_length=3, choices=CONTENT_PARAMS_OPERATORS, default='===')
     value = models.IntegerField(null=True, blank=True, default=0)
-
     call_on_failure = models.BooleanField(default=False) # call only if the player fails the conditions defined for a "successful" event
     position = models.IntegerField(default=0) # relative position to other events linked to same choice --- useful if order events are fired in matters
 
@@ -152,12 +147,14 @@ class ConditionalOperator(models.Model): #one per conditional max
     def __str__(self):
         return self.operator
 
+
 class ConditionalBoolean(models.Model): #one per conditional max
     condition = models.OneToOneField(Conditional, on_delete=models.CASCADE, primary_key=True)
     value = models.BooleanField(default=True)
 
     def __str__(self):
         return self.value
+
 
 class ConditionalInteger(models.Model): #one per conditional max
     condition = models.OneToOneField(Conditional, on_delete=models.CASCADE, primary_key=True)
