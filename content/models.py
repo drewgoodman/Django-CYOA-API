@@ -3,7 +3,9 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.contrib.contenttypes.models import ContentType
 
+from django.utils.safestring import mark_safe
 
+from cloudinary import CloudinaryImage
 from cloudinary.models import CloudinaryField
 
 from .utils.gamedata import *
@@ -49,7 +51,11 @@ class Campaign(models.Model):
             return self.feature_image.image.url
         else:
             return "/placeholder.png"
-
+    
+    def get_background_image(self):
+        return mark_safe(CloudinaryImage(self.feature_image.image.url).image(secure=True, transformation=[
+        {'width':150, 'height': 150}
+        ]))
 
 class SceneManager(models.Manager):
 

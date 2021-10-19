@@ -4,10 +4,30 @@ from django.contrib.auth import (
     get_user_model
 )
 from django.utils.translation import gettext_lazy as _
+from cloudinary.forms import CloudinaryFileField
 
-from content.models import Campaign, Scene, SceneNode, NodeChoice
+from content.models import Campaign, Scene, SceneNode, NodeChoice, BackgroundImage, IconImage
+
 
 User = get_user_model()
+
+class BackgroundImageForm(forms.ModelForm):
+    image = CloudinaryFileField(
+        options = {
+            'tags': "CYOA",
+            'crop': "limit", "width": 1000, "height": 1000,
+            "folder": "Images/BackgroundImages"
+        }
+    )
+    class Meta:
+        model = BackgroundImage
+        fields = '__all__'
+
+
+class IconImageForm(forms.ModelForm):
+    class Meta:
+        model = IconImage
+        fields = '__all__'
 
 
 class UserLoginForm(forms.Form):
