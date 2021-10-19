@@ -3,7 +3,7 @@ from django.http import Http404, HttpResponseRedirect
 from django.contrib import messages
 
 
-from ..forms import CampaignForm, SceneForm, SceneNodeForm, BackgroundImageForm, IconImageForm
+from ..forms import CampaignForm, SceneForm, SceneNodeForm
 from ..models import *
 
 def view_campaign(request, slug=None):
@@ -62,13 +62,3 @@ def scene_detail(request, slug=None, campaign_id=None):
         "scene": instance
     }
     return render(request, 'content/scene_detail.html', context)
-
-def upload_image(request):
-    form = BackgroundImageForm(request.POST or None, request.FILES or None)
-    if form.is_valid() and request.user.is_authenticated:
-        form.save()
-        return redirect('/')
-    context = {
-        "form": form
-    }
-    return render(request, 'content/upload_image.html', context)        
