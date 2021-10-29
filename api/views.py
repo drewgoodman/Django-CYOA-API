@@ -7,7 +7,6 @@ from rest_framework.response import Response
 
 from .serializers import CampaignSerializer, CampaignDataSerializer
 from content.models import Campaign
-from zcoast.api import serializers
 
 
 # URL OVERVIEW OF API FUNCTIONS
