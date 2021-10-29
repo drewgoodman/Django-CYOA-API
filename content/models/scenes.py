@@ -105,7 +105,7 @@ class NodeChoice(models.Model): # an interactive option made available within a 
     result_text_on_fail = models.TextField(null=True, blank=True) # same as resultText, but plays if conditions are failed AND canFail is True --- is the result of a player making a choice and failing the check
 
     def __str__(self):
-        return self.label + ": " + self.display_text
+        return self.display_text
     
     def icon(self):
         if self.icon_linked:
