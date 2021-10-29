@@ -9,6 +9,7 @@ from .serializers import CampaignSerializer, CampaignDataSerializer
 from content.models import Campaign
 from zcoast.api import serializers
 
+
 # URL OVERVIEW OF API FUNCTIONS
 @api_view(['GET'])
 def api_overview(request):
@@ -18,12 +19,14 @@ def api_overview(request):
     }
     return Response(api_urls)
 
+
 # GET LIST OF CAMPAIGNS
 @api_view(['GET'])
 def campaign_list(request):
     campaigns = Campaign.objects.all()
     serializer = CampaignSerializer(campaigns, many=True)
     return Response(serializer.data)
+
 
 # GET CAMPAIGN DATA
 @api_view(['GET'])

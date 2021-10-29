@@ -63,6 +63,7 @@ class SceneNodeSerializer(serializers.ModelSerializer):
         else:
             return ""
 
+
 class NodeChoiceSerializer(serializers.ModelSerializer):
 
     icon = serializers.SerializerMethodField(read_only=True) 
