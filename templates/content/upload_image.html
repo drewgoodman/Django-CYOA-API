@@ -1,0 +1,17 @@
+{% extends "__base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% load cloudinary %}
+<div class="col-sm-6 col-sm-offset-3">
+    <h1>Upload {{ImageType}}</h1>
+    <hr>
+    <form method="POST" action="" enctype="multipart/form-data">{% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" class="btn btn-primary" value="Upload Image">
+    </form>
+</div>
+{% endblock content %}
+
+{% block script %}
+{% endblock script %}

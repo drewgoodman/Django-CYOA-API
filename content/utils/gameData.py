@@ -1,7 +1,7 @@
 
 CONTENT_EVENT_TYPES = (
-    ('MODIFY_MONEY', 'Add/Subtract Player Money'), # add or subtract from player currency by amount
-    ('MODIFY_ITEM', 'Give/Take Item from Player'), # add or subtract an inventory item by id and amount
+    ('MODIFY_MONEY', 'Add/Subtract Player Money'), # add or subtract from player currency by integerParam amount
+    ('MODIFY_ITEM', 'Give/Take Item from Player'), # add or subtract an inventory item by id and integerParam amount
     ('GAME_OVER', 'Game Over screen'), # kills the player, proceeds to gameover
 )
 

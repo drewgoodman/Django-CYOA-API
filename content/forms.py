@@ -9,6 +9,36 @@ from content.models import Campaign, Scene, SceneNode, NodeChoice
 
 User = get_user_model()
 
+<<<<<<< HEAD
+=======
+class BackgroundImageForm(forms.ModelForm):
+    image = CloudinaryFileField(
+        options = {
+            'tags': "CYOA, background image, zcoast, upload",
+            'crop': "limit", "width": 1920, "height": 1080,
+            'folder': 'zcoast/background-image',
+            'overwrite': True
+        }
+    )
+    class Meta:
+        model = BackgroundImage
+        fields = '__all__'
+
+
+class IconImageForm(forms.ModelForm):
+    image = CloudinaryFileField(
+        options = {
+            'tags': "CYOA, icon, zcoast, upload",
+            'crop': "limit", "width": 512, "height": 512,
+            'folder': 'zcoast/icons',
+            'overwrite': True
+        }
+    )
+    class Meta:
+        model = IconImage
+        fields = '__all__'
+
+>>>>>>> cloud-static
 
 class UserLoginForm(forms.Form):
     username = forms.CharField()
