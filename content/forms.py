@@ -14,9 +14,10 @@ User = get_user_model()
 class BackgroundImageForm(forms.ModelForm):
     image = CloudinaryFileField(
         options = {
-            'tags': "CYOA",
-            'crop': "limit", "width": 1000, "height": 1000,
-            "folder": "Images/BackgroundImages"
+            'tags': "CYOA, background image, zcoast, upload",
+            'crop': "limit", "width": 1920, "height": 1080,
+            'folder': 'zcoast/background-image',
+            'overwrite': True
         }
     )
     class Meta:
@@ -25,6 +26,14 @@ class BackgroundImageForm(forms.ModelForm):
 
 
 class IconImageForm(forms.ModelForm):
+    image = CloudinaryFileField(
+        options = {
+            'tags': "CYOA, icon, zcoast, upload",
+            'crop': "limit", "width": 512, "height": 512,
+            'folder': 'zcoast/icons',
+            'overwrite': True
+        }
+    )
     class Meta:
         model = IconImage
         fields = '__all__'

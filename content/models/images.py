@@ -13,8 +13,10 @@ from ..utils.gamedata import *
 
 class BackgroundImage(models.Model): #reference for background banners on scene nodes
 
-    name = models.CharField(max_length=100)
-    image = CloudinaryField(null=True, blank=True)
+    id = models.AutoField(primary_key=True, editable=False)
+    name = models.CharField(max_length=100, unique=True)
+    image = CloudinaryField('image', null=True, blank=True)
+    description_short = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -22,8 +24,10 @@ class BackgroundImage(models.Model): #reference for background banners on scene 
 
 class IconImage(models.Model): #reference for action-icon images
 
-    name = models.CharField(max_length=100)
+    id = models.AutoField(primary_key=True, editable=False)
+    name = models.CharField(max_length=100, unique=True)
     image = CloudinaryField(null=True, blank=True)
+    description_short = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return self.name

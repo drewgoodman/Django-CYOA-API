@@ -6,7 +6,8 @@
 <hr>
 <h3>Campaign Scenes</h3>
 <a href="{% url 'content:create-scene' campaign_id %}" class="btn btn-primary">Create New Scene</a>
-<div class="accordion" id="accordionExample">
+<div class="container-fluid">
+  <div class="accordion" id="accordionExample">
     {% for scene in scenes %}
     <div class="accordion-item">
       <h2 class="accordion-header" id="headingOne">
@@ -20,8 +21,9 @@
           <ul>
               {% for node in scene.nodes %}
               <li>{{node.name}} ({{node.label}})
+                  <img class='img-fluid' src='{{node.background}}'>
                   <br>FIRST TIME: {{node.display_text}}
-                  <br>REPEAT: {{node.display_txt_visited}}
+                  <br>REPEAT: {{node.display_text_visited}}
                   <ul>
                       {% for choice in node.choices %}
                       <li>{{choice.display_text}}</li>
@@ -35,5 +37,7 @@
     </div>
     {% endfor %}
   </div>
+</div>
+
 
 {% endblock content %}
