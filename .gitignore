@@ -6,7 +6,7 @@ __pycache__
 *.bak
 *.sqlite3
 
-settings/local.py
+local.py
 
 static_cdn/
 media_cdn/
