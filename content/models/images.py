@@ -6,8 +6,6 @@ from django.utils.safestring import mark_safe
 
 from cloudinary.models import CloudinaryField
 
-from ..utils.gamedata import *
-
 # Create your models here.
 
 
