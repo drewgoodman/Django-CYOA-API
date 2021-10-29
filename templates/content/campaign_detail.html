@@ -7,36 +7,30 @@
 <h3>Campaign Scenes</h3>
 <a href="{% url 'content:create-scene' campaign_id %}" class="btn btn-primary">Create New Scene</a>
 <div class="container-fluid">
-  <div class="accordion" id="accordionExample">
-    {% for scene in scenes %}
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingOne">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{scene.id}}" aria-expanded="true" aria-controls="collapse{{scene.id}}">
-          {{ scene.name }}
-        </button>
-      </h2>
-      <div id="collapse{{scene.id}}" class="accordion-collapse collapse" aria-labelledby="heading{{scene.id}}" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <a href="{{scene.get_content_url}}"><strong>{{ scene.label }}.</strong></a>
-          <ul>
-              {% for node in scene.nodes %}
-              <li>{{node.name}} ({{node.label}})
-                  <img class='img-fluid' src='{{node.background}}'>
-                  <br>FIRST TIME: {{node.display_text}}
-                  <br>REPEAT: {{node.display_text_visited}}
-                  <ul>
-                      {% for choice in node.choices %}
-                      <li>{{choice.display_text}}</li>
-                      {% endfor %}
-                  </ul>
-              </li>
-              {% endfor %}
-          </ul>
+  {% for scene in scenes %}
+  <h2>
+    {{ scene.name }}
+    </button>
+  </h2>
+  <a href="{{scene.get_content_url}}"><strong>{{ scene.label }}.</strong></a>
+  {% for node in scene.nodes %}
+  {{node.name}} ({{node.label}})
+  <img class='img-fluid' style="max-height:200px; max-width:200px;" src='{{node.background}}'>
+  <br>FIRST TIME: {{node.display_text}}
+  <br>REPEAT: {{node.display_text_visited}}
+    {% for choice in node.choices %}
+      <div class="card" style="width: 16rem">
+        <img class='card-img-top' style="max-height:75px; max-width:75px;" src='{{choice.icon}}'>
+        <div class="card-body">
+          <strong class="card-title">{{choice.display_text}}</strong>
+          <div class="card-text">{{choice.result_text}}</div>
         </div>
       </div>
-    </div>
     {% endfor %}
-  </div>
+
+  {% endfor %}
+  {% endfor %}
+</div>
 </div>
 
 

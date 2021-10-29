@@ -1,8 +1,6 @@
 {% extends '__base.html' %}
 {% load static %}
 {% block content %}
-
-<img src='https://res.cloudinary.com/dymbkkk9p/image/upload/co_rgb:0013ff,e_colorize:100/v1635038766/magnifying-glass_1_k6itax.png'>
 <table class="table align-middle">
     <thead>
         <th scope="col">Campaign</th>
@@ -16,7 +14,7 @@
             <th><a href="{{obj.get_content_url}}">{{obj.name}}</a></th>
             <td>{{obj.label}}</td>
             <td>{{obj.description_short}}</td>
-            <td>{{obj.get_background_image}}<img class="img-thumbnail" style="max-height:200px; max-width:200px;" src="{{obj.get_image_url}}"></td>
+            <td><img class="img-thumbnail" style="max-height:200px; max-width:200px;" src="{{obj.get_image_url}}"></td>
             
         </tr>
         {% endfor %}

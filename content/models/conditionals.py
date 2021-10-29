@@ -5,8 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 
 from django.utils.safestring import mark_safe
 
-from .images import BackgroundImage, IconImage
-from .scenes import SceneNode, Scene
+from cloudinary.models import CloudinaryField
 from ..utils.gamedata import *
 
 class Conditional(models.Model): # the "base" of a conditional check for a choice node -- must reference a ConditionType from utils.gameData, then optionally has a unqiue ConditionalOperator, ConditionalInteger, and/or ConditionalBoolean as needed
